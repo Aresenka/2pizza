@@ -110,6 +110,8 @@ class App extends Component {
             .then(response => {
                 let settings = response.data
 
+                document.title = settings['site title']
+
                 axios.get('/api/menu/0')
                     .then(response => {
                         let menu = {}
