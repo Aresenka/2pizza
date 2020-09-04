@@ -11,7 +11,7 @@ class MealPricesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('meals')->insert([
+        DB::table('meal_prices')->insert([
             [
                 'meal_id' => 1,
                 'currency_id' => 1,
