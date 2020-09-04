@@ -1,4 +1,4 @@
-##Yay!
+## Yay!
 
 This is my first version of my first laravel+react-based app!
 It is plenty things to do, but it is ready to be commited, so... I'm glad to introduce you the fake pizzeria site!
