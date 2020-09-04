@@ -13,15 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-function getParameters(){
-    $parameters = [];
-    $settings = \App\Settings::all();
-
-    foreach ($settings as $setting){
-        $parameters['settings'][$setting->setting_title] = $setting->setting_value;
-    }
-
-    return $parameters;
-}
-
-Route::view('/{path?}', 'app', getParameters());
+Route::view('/{path?}', 'app');
