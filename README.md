@@ -24,6 +24,18 @@ This is TODO list:
 + Add all texts to site settings and make it editable in admin space
 + Add tests for both react and laravel code
 
+This is deploy steps:
+
+- Clone this repo
+- Add .env file with your environment settings
+- Create database and grant privileges to user you will use to that database
+- Add database settings to .env file
+- Run *composer install*
+- Run *npm install* to install dependencies
+- Run *php artisan migrate --seed* to create tables and fill them with default data
+- Finally, run *npm run prod*
+
+
 And finally, this is default Laravel README:
 
 ## About Laravel
