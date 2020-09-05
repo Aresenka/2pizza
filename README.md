@@ -12,11 +12,11 @@ This is TODO list:
 
 - Add admin space: orders list, meals CRUD, site settings
 - Add login feature
-- Protect API from outdoor use with csrf validation
-- Separate API to admin and user spaces
+- Protect API from outdoor use
 - Make app fully adaptive
 - Make code more readable and write comments
 - Refactor styles SASS way
++ Separate project to backend and frontend
 + Add user profile: default phone number, name and address
 + Add order list for authorized users
 + Add deals CRUD
