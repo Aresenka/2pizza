@@ -59,7 +59,7 @@ export default class Checkout extends Component {
 
     componentDidMount() {
         let total_price = 0,
-            items = this.props.items.map(item => {
+            items = this.props.items.filter(i => i).map(item => {
                 total_price += item.price * item.count
 
                 return (

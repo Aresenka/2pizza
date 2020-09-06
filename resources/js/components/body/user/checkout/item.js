@@ -14,7 +14,7 @@ export default props => {
 
     return (
         <div className='row order-item'>
-            <div className='col-6 col-md-3'>
+            <div className='col-6 col-md-3 mb-3 mb-lg-0'>
                 <div className='order-item-image position-relative'>
                     <img
                         src={'/images/meals/'+item.meal_pic}

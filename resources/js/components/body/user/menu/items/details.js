@@ -65,7 +65,7 @@ export default class Details extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <div className='col-4 text-left'>
+                        <div className='col-5 text-left'>
                             <Button
                                 color="primary"
                                 data-id={this.props.item.id}
@@ -74,7 +74,7 @@ export default class Details extends Component {
                                 Add to cart
                             </Button>
                         </div>
-                        <div className='col-5 text-right'>
+                        <div className='col-4 text-right'>
                             <Button
                                 color="secondary"
                                 onClick={this.props.closeModal}>
