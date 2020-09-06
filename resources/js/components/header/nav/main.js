@@ -1,22 +1,31 @@
 import React from 'react'
-import NavList from './navList'
-import NavButton from './navButton'
+import UserNav from './user/main'
+import AdminNav from './admin/main'
 import Cart from './cart/main'
+import {Switch, Route} from "react-router-dom"
 
 export default props => {
     return (
-        <nav className="nav-menu d-none d-lg-block">
-            <NavList empty={props.cart.filter(item=>item).length === 0}/>
-            <Cart
-                items={props.cart}
-                currency={props.currency}
-                cartIsOpen={props.cartIsOpen}
-                toggleCart={props.toggleCart}
-                changeCount={props.changeCount}
-                removeItem={props.removeItem}
-                checkoutOrder={props.checkoutOrder}
-            />
-            <NavButton />
-        </nav>
-        )
+        <div>
+            <nav className="nav-menu">
+                <Switch>
+                    <Route exact path='/'>
+                        <UserNav empty={props.cart.filter(item => item).length === 0}/>
+                        <Cart
+                            items={props.cart}
+                            currency={props.currency}
+                            cartIsOpen={props.cartIsOpen}
+                            toggleCart={props.toggleCart}
+                            changeCount={props.changeCount}
+                            removeItem={props.removeItem}
+                            checkoutOrder={props.checkoutOrder}
+                        />
+                    </Route>
+                    <Route path='/admin'>
+                        <AdminNav/>
+                    </Route>
+                </Switch>
+            </nav>
+        </div>
+    )
 }
