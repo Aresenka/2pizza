@@ -8,14 +8,14 @@ export default props => {
     if (props.items.filter(el => el).length > 0) {
         let total_price = 0
         button = <Button checkoutOrder={props.checkoutOrder}/>
-        items = props.items.map(item => {
+        items = props.items.filter(i => i).map(item => {
             item.meal_prices.map(price_item => {
                 if(+price_item.currency_id === +props.currency.id){
                     item.price = +price_item.meal_price
                 }
             })
-
             total_price += item.price * item.count
+
             return (
                 <div key={'cart_'+item.id}>
                     <Item
