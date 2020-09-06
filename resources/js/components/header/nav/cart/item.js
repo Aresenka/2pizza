@@ -23,7 +23,7 @@ export default props => {
 
         return (
             <div className='cart-item row'>
-                <div className='col-md-3 col-6'>
+                <div className='col-md-3 col-6 my-3 my-lg-0'>
                     <div className='cart-image position-relative'>
                         <img
                             src={'/images/meals/'+item.meal_pic}
@@ -35,7 +35,7 @@ export default props => {
                         />
                     </div>
                 </div>
-                <div className='cart-title my-auto col-md-3 col-6'>
+                <div className='cart-title my-auto col-md-3 col-6 text-sm-right'>
                     {item.meal_title}
                 </div>
                 <div className='cart-count my-auto col-md-3 col-6'>
@@ -46,7 +46,7 @@ export default props => {
                         onChange={handleChange}
                     />
                 </div>
-                <div className='cart-price my-auto col-md-3 col-6'>
+                <div className='cart-price my-auto col-md-3 col-6 text-right'>
                     {item.price * item.count + props.currency.data.symbol}
                 </div>
             </div>
