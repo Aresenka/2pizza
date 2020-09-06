@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 //Project settings methods
 Route::get('settings', 'SettingsController@index');
@@ -36,3 +36,8 @@ Route::post('menu/delete/{id}', 'MenuController@delete');
 
 //Orders methods
 Route::post('order/add', 'OrderController@add');
+
+//Admin methods
+Route::get('admin/order/get/all', 'OrderController@getOrders');
+Route::post('admin/order/update', 'OrderController@update');
+Route::post('admin/settings/update', 'SettingsController@update');
