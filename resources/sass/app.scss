@@ -549,6 +549,10 @@ section {
         top: 5px;
         z-index: 69;
 
+        @media(max-width: 450px){
+            top: -80%
+        }
+
         .current-currency, .currency-list li {
             padding: 10px 20px;
         }
@@ -885,14 +889,20 @@ input.error {
     }
 }
 
+.cart-item, .cart-item-placeholder{
+    min-width: 50%;
+    max-width: 100%;
+
+    @media (min-width: 992px){
+        min-width: 400px;
+    }
+}
+
 .cart-item-placeholder {
     display: flex;
-    min-width: 400px;
 }
 
 .cart-item {
-    min-width: 400px;
-
     .cart-image {
         .cart-remove {
             width: 50px;
@@ -940,6 +950,43 @@ input.error {
 #profile {
     margin-top: -28%;
 }
+
+/*--------------------------------------------------------------
+# Admin
+--------------------------------------------------------------*/
+#main.admin{
+    margin-top: 75px
+}
+
+.table{
+    thead{
+        &>tr{
+            &:first-child{
+                th{
+                    text-align: center;
+
+                    &:nth-child(even){
+                        background-color: lightgray;
+                    }
+                }
+            }
+        }
+    }
+    tbody{
+        tr{
+            &:nth-child(even){
+                background-color: rgb(211,211,211,0.4);
+            }
+
+            .order-select{
+                min-width: 130px;
+            }
+        }
+    }
+}
+/*--------------------------------------------------------------
+# Orders
+--------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
 # Modals
