@@ -19,6 +19,6 @@ class Order extends Model
 
     public function orderCurrency()
     {
-        return $this->hasOne(Currency::class, 'id');
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 }
