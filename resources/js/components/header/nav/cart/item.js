@@ -1,17 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default props => {
-    function handleChange(e) {
-        let item = e.target,
-            value = item.value,
-            id = props.item.id
-        props.changeCount(id, value)
-    }
-
-    function handleClick(){
-        props.removeItem(props.item.id)
-    }
-
     if (props.empty) {
         return (
             <div className='cart-item-placeholder'>
@@ -20,6 +9,21 @@ export default props => {
         )
     } else {
         let item=props.item
+
+        const [value, setValue] = useState(item.count)
+
+        function handleChange(e) {
+            let item = e.target,
+                value = item.value,
+                id = props.item.id
+
+            setValue(value)
+            props.changeCount(id, value)
+        }
+
+        function handleClick(){
+            props.removeItem(props.item.id)
+        }
 
         return (
             <div className='cart-item row'>
@@ -41,7 +45,8 @@ export default props => {
                 <div className='cart-count my-auto col-md-3 col-6'>
                     <input
                         type='number'
-                        value={item.count}
+                        value={value}
+                        min={1}
                         className='form-control cart-count'
                         onChange={handleChange}
                     />
