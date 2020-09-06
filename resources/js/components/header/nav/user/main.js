@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import Item from './navItem'
+import Item from './item'
+import Cart from './cart'
+import User from './user'
 
 export default class List extends Component {
     constructor(props) {
@@ -27,11 +29,6 @@ export default class List extends Component {
                     title: 'About us',
                     target: 'about'
                 },
-                // {
-                //     id: 'navContact',
-                //     title: 'Contact us',
-                //     target: 'contact'
-                // }
             ],
             current: 'navHome'
         }
@@ -91,17 +88,8 @@ export default class List extends Component {
         return (
             <ul>
                 {items}
-                <li>
-                    <a
-                        className={'pointer '+(this.props.empty ? 'emptyCart' : '')}
-                        id="cart"
-                    >
-                        <ion-icon
-                            name="basket-outline"
-                            size='large'
-                        />
-                    </a>
-                </li>
+                <Cart empty={this.props.empty}/>
+                <User />
             </ul>
         )
     }

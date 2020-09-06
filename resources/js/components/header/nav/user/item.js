@@ -7,10 +7,10 @@ export default props => {
     return (
         <li
             id={props.id}
-            className={props.current === props.id ? 'active' : ''}
+            className='d-none d-lg-block'
         >
             <a
-                className='pointer'
+                className={`pointer ${props.current === props.id ? 'active' : ''}`}
                 href={null}
                 onClick={handleClick}
             >
