@@ -1,9 +1,15 @@
 import React, {Component} from 'react'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+} from "react-router-dom"
 import ReactDOM from 'react-dom'
 import Header from './header/main'
-import Intro from './body/intro/main'
+import Intro from './body/user/intro/main'
 import Content from './body/main'
-import Checkout from './body/checkout/main'
+import Checkout from './body/user/checkout/main'
 import Footer from './footer/main'
 
 class App extends Component {
@@ -34,75 +40,6 @@ class App extends Component {
         this.toggleCheckoutModal = this.toggleCheckoutModal.bind(this)
         this.placeOrder = this.placeOrder.bind(this)
         this.changeCurrency = this.changeCurrency.bind(this)
-    }
-
-    //Move this to header
-    toggleCart() {
-        this.setState({cartIsOpen: !this.state.cartIsOpen})
-    }
-
-    addToCart(id, count = 1) {
-        let cart = this.state.cart
-        if (cart[id]) {
-            cart[id].count += count
-        } else {
-            let item = this.state.menu[id]
-            item.count = count
-            cart[id] = item
-        }
-        this.setState({cart: cart})
-    }
-
-    removeFromCart(id) {
-        let cart = this.state.cart
-        delete cart[id]
-        this.setState({cart: cart})
-    }
-
-    changeItemCount(id, count) {
-        let cart = this.state.cart
-        cart[id].count = count
-        this.setState({cart: cart})
-    }
-
-    toggleCheckoutModal() {
-        this.setState({
-            cartIsOpen: false,
-            checkout: !this.state.checkout
-        })
-    }
-
-    placeOrder(order) {
-        axios.post('/api/order/add', order)
-            .then(() => {
-                this.setState({checkout: false})
-            })
-    }
-
-    changeCurrency(id) {
-        let cart = []
-
-        this.state.cart.filter(i => i).map(item => {
-            let currency_id = this.state.current_currency.id,
-                prices = this.state.menu[item.id].meal_prices,
-                price = 0
-
-            prices.map(item => {
-                if (+item.currency_id === +currency_id) {
-                    price = item.meal_price
-                }
-            })
-            item.price = price
-            cart[item.id] = item
-        })
-
-        this.setState({
-            current_currency: {
-                id: id,
-                data: this.state.currencies[id]
-            },
-            cart: cart
-        })
     }
 
     componentDidMount() {
@@ -138,7 +75,108 @@ class App extends Component {
         if (this.state.cart.filter(item => item).length === 0 && this.state.checkout) {
             this.setState({checkout: false})
         }
+
+        if (
+            prevState.cartIsOpen &&
+            (
+                prevState.cart.filter(item => item).length === 0 &&
+                this.state.cart.filter(item => item).length !== 0
+            ) ||
+            (
+                this.state.cart.filter(item => item).length === 0 &&
+                prevState.cart.filter(item => item).length !== 0
+            )
+        ) {
+            this.setState({
+                cartIsOpen: false
+            })
+            setTimeout(this.toggleCart, 0)
+        }
     }
+
+    //Cart methods
+    //Move this to header
+    toggleCart() {
+        this.setState({cartIsOpen: !this.state.cartIsOpen})
+    }
+
+    addToCart(id, count = 1) {
+        let cart = [...this.state.cart]
+        if (cart[id]) {
+            let item = {...cart[id]}
+            item.count += count
+            cart[id] = item
+        } else {
+            let meal = {...this.state.menu[id]}
+            meal.count = count
+            cart[id] = meal
+        }
+        this.setState({
+            cart: cart
+        })
+    }
+
+    removeFromCart(id) {
+        let cart = [...this.state.cart]
+        delete cart[id]
+        this.setState({cart: cart})
+    }
+
+    changeItemCount(id, count) {
+        let cart = [...this.state.cart],
+            item = {...cart[id]}
+        item.count = count
+        this.setState({cart: cart})
+    }
+
+    //Order checkout methods
+    toggleCheckoutModal() {
+        this.setState({
+            cartIsOpen: false,
+            checkout: !this.state.checkout
+        })
+    }
+
+    placeOrder(order) {
+        axios.post('/api/order/add', order)
+            .then(() => {
+                this.setState({
+                    cart: [],
+                    checkout: false
+                })
+            })
+    }
+
+    //Currency methods
+    changeCurrency(id) {
+        let cart = [...this.state.cart]
+
+        cart.filter(i => i).map(item => {
+            let currency_id = this.state.current_currency.id,
+                prices = this.state.menu[item.id].meal_prices,
+                price = 0
+
+            prices.map(item => {
+                if (+item.currency_id === +currency_id) {
+                    price = item.meal_price
+                }
+            })
+
+            item = {...item}
+            item.price = price
+            cart[item.id] = item
+        })
+
+        this.setState({
+            current_currency: {
+                id: id,
+                data: this.state.currencies[id]
+            },
+            cart: cart
+        })
+    }
+
+    //Admin methods
 
     render() {
         let checkout = this.state.checkout ?
@@ -151,52 +189,73 @@ class App extends Component {
                 currency={this.state.current_currency}
             /> :
             null
+
         return (
-            <div id="body">
-                <Header
-                    companyName={this.state.project_name}
-                    currency={this.state.current_currency}
-                    cart={this.state.cart}
-                    cartIsOpen={this.state.cartIsOpen}
-                    toggleCart={this.toggleCart}
-                    changeCount={this.changeItemCount}
-                    removeItem={this.removeFromCart}
-                    checkoutOrder={this.toggleCheckoutModal}
-                />
-                <Intro
-                    items={[
-                        {
-                            src: 'images/intro-carousel/1.jpg',
-                            title: 'Best pizza in the city',
-                            text: 'We make best pizzas in this city. Try it out!'
-                        },
-                        {
-                            src: 'images/intro-carousel/2.jpg',
-                            title: 'Stone oven',
-                            text: 'We use authentic pizza oven for baking. That makes our pizzas so tasty!'
-                        },
-                        {
-                            src: 'images/intro-carousel/3.jpg',
-                            title: 'Natural ingredients',
-                            text: 'We use only natural ingredients and all of our processes are eco-friendly!'
-                        },
-                        {
-                            src: 'images/intro-carousel/4.jpg',
-                            title: 'Great deals',
-                            text: 'We are glad to offer you our deals, new for each month!'
-                        }
-                    ]}
-                />
-                <Content
-                    menu={this.state.menu}
-                    currencies={this.state.currencies}
-                    currency={this.state.current_currency}
-                    addToCart={this.addToCart}
-                    changeCurrency={this.changeCurrency}
-                />
-                {checkout}
-                <Footer companyName={this.state.project_name}/>
-            </div>
+            <Router>
+                <div id="body">
+                    <Header
+                        companyName={this.state.project_name}
+                        currency={this.state.current_currency}
+                        cart={this.state.cart}
+                        cartIsOpen={this.state.cartIsOpen}
+                        toggleCart={this.toggleCart}
+                        changeCount={this.changeItemCount}
+                        removeItem={this.removeFromCart}
+                        checkoutOrder={this.toggleCheckoutModal}
+                    />
+
+                    <Switch>
+                        <Route exact path='/'>
+                            <Intro
+                                items={[
+                                    {
+                                        src: 'images/intro-carousel/1.jpg',
+                                        title: 'Best pizza in the city',
+                                        text: 'We make best pizzas in this city. Try it out!'
+                                    },
+                                    {
+                                        src: 'images/intro-carousel/2.jpg',
+                                        title: 'Stone oven',
+                                        text: 'We use authentic pizza oven for baking. That makes our pizzas so tasty!'
+                                    },
+                                    {
+                                        src: 'images/intro-carousel/3.jpg',
+                                        title: 'Natural ingredients',
+                                        text: 'We use only natural ingredients and all of our processes are eco-friendly!'
+                                    },
+                                    {
+                                        src: 'images/intro-carousel/4.jpg',
+                                        title: 'Great deals',
+                                        text: 'We are glad to offer you our deals, new for each month!'
+                                    }
+                                ]}
+                            />
+                            <Content
+                                isAdmin={false}
+                                menu={this.state.menu}
+                                currencies={this.state.currencies}
+                                currency={this.state.current_currency}
+                                addToCart={this.addToCart}
+                                changeCurrency={this.changeCurrency}
+                            />
+                            {checkout}
+                        </Route>
+                        <Route path='/admin'>
+                            <Content
+                                isAdmin={true}
+                                menu={this.state.menu}
+                                currencies={this.state.currencies}
+                                currency={this.state.current_currency}
+                                addToCart={this.addToCart}
+                                changeCurrency={this.changeCurrency}
+                            />
+                        </Route>
+                        <Redirect to='/'/>
+                    </Switch>
+
+                    <Footer companyName={this.state.project_name}/>
+                </div>
+            </Router>
         )
     }
 }
