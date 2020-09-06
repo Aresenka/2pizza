@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function add(Request $request){
+    public function add(Request $request)
+    {
         $data = $request->validate([
             'name' => 'required',
             'phone' => 'required',
@@ -27,7 +28,7 @@ class OrderController extends Controller
             'currency_id' => $data['currency']
         ]);
 
-        foreach($data['items'] as $item){
+        foreach ($data['items'] as $item) {
             OrderItems::create([
                 'order_id' => $order->id,
                 'meal_id' => $item['id'],
@@ -36,5 +37,36 @@ class OrderController extends Controller
         }
 
         return response()->json('Order created!');
+    }
+
+    public function getOrders(Request $request)
+    {
+        $orders = Order::with([
+                'orderItems' => function ($query) {
+                    return $query->select('meals_count', 'meal_title');
+                },
+                'orderCurrency'
+            ]
+        )
+            ->orderBy('order_status', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required',
+            'status' => 'required',
+            'comment' => 'string|nullable'
+        ]);
+
+        $order = Order::find($data['id']);
+        $order->order_status = $data['status'];
+        $order->order_comment = $data['comment'];
+        $order->save();
+
+        return response()->json('Order updated!');
     }
 }
