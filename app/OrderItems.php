@@ -9,4 +9,8 @@ class OrderItems extends Model
     public $timestamps = false;
 
     protected $fillable = ['order_id', 'meal_id', 'meals_count'];
+
+    public function Meal(){
+        return $this->hasOne(Meal::class);
+    }
 }
