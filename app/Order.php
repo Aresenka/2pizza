@@ -13,11 +13,12 @@ class Order extends Model
 
     public function orderItems()
     {
-        return $this->hasManyThrough(Meal::class, OrderItems::class);
+        return $this
+            ->belongsToMany(Meal::class, 'order_items', 'order_id', 'meal_id');
     }
 
     public function orderCurrency()
     {
-        return $this->hasOne(Currency::class);
+        return $this->hasOne(Currency::class, 'id');
     }
 }
