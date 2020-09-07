@@ -22,9 +22,8 @@ export default class Checkout extends Component {
                     text: 'Please, enter your address!'
                 }
             },
-            total_price: 0,
-            items: []
         }
+
         this.handleClick = this.handleClick.bind(this)
     }
 
@@ -57,7 +56,7 @@ export default class Checkout extends Component {
         }
     }
 
-    componentDidMount() {
+    render(){
         let total_price = 0,
             items = this.props.items.filter(i => i).map(item => {
                 total_price += item.price * item.count
@@ -73,22 +72,14 @@ export default class Checkout extends Component {
                         <hr/>
                     </div>
                 )
-            })
-
-        this.setState({
-            total_price: total_price,
-            items: items
-        })
-    }
-
-    render(){
-        let total = (
+            }),
+            total = (
                 <div className='order-total row'>
                     <div className='col-6 text-left'>
                         Total:
                     </div>
                     <div className='col-6 text-right'>
-                        {this.state.total_price+this.props.currency.data.symbol}
+                        {total_price+this.props.currency.data.symbol}
                     </div>
                 </div>
             )
@@ -102,7 +93,7 @@ export default class Checkout extends Component {
                     Order checkout
                 </ModalHeader>
                 <ModalBody>
-                    {this.state.items}
+                    {items}
                     {total}
                     <hr />
                     <Form errors={this.state.errors}/>
