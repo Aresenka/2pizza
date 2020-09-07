@@ -1,15 +1,16 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 export default props => {
     let item = props.item
 
-    const [value, setValue] = useState(item.count)
-
     function handleChange(e) {
         let value = e.target.value
 
-        setValue(value)
-        props.changeItemCount(props.item.id, value)
+        if(!value || value <= 0){
+            e.preventDefault()
+        }else{
+            props.changeItemCount(props.item.id, value)
+        }
     }
 
     function handleClick() {
@@ -39,7 +40,7 @@ export default props => {
                     className='form-control'
                     min={1}
                     onChange={handleChange}
-                    value={value}
+                    value={item.count}
                 />
             </div>
             <div className='col-6 col-md-3 my-auto order-item-price'>
