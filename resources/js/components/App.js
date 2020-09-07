@@ -11,6 +11,7 @@ import Intro from './body/user/intro/main'
 import Content from './body/main'
 import Checkout from './body/user/checkout/main'
 import Footer from './footer/main'
+import Alert from './body/alert'
 
 class App extends Component {
     constructor(props) {
@@ -30,7 +31,12 @@ class App extends Component {
             menu: {},
             cart: [],
             cartIsOpen: false,
-            checkout: false
+            checkout: false,
+            alert: {
+                isOpen: false,
+                text: '',
+                color: ''
+            }
         }
 
         this.toggleCart = this.toggleCart.bind(this)
@@ -73,19 +79,20 @@ class App extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.cart.filter(item => item).length === 0 && this.state.checkout) {
-            this.setState({checkout: false})
-        }
-
-        if (
+            this.setState({
+                checkout: false,
+                cartIsOpen: false
+            })
+        } else if (
             prevState.cartIsOpen &&
-            (
-                prevState.cart.filter(item => item).length === 0 &&
-                this.state.cart.filter(item => item).length !== 0
-            ) ||
-            (
-                this.state.cart.filter(item => item).length === 0 &&
-                prevState.cart.filter(item => item).length !== 0
-            )
+            ((
+                    prevState.cart.filter(item => item).length === 0 &&
+                    this.state.cart.filter(item => item).length !== 0
+                ) ||
+                (
+                    this.state.cart.filter(item => item).length === 0 &&
+                    prevState.cart.filter(item => item).length !== 0
+                ))
         ) {
             this.setState({
                 cartIsOpen: false
@@ -125,7 +132,10 @@ class App extends Component {
     changeItemCount(id, count) {
         let cart = [...this.state.cart],
             item = {...cart[id]}
+
         item.count = count
+        cart[id] = item
+
         this.setState({cart: cart})
     }
 
@@ -139,10 +149,28 @@ class App extends Component {
 
     placeOrder(order) {
         axios.post('/api/order/add', order)
-            .then(() => {
+            .then(response => {
+                setTimeout(
+                    () => {
+                        this.setState({
+                                alert: {
+                                    isOpen: false,
+                                    color: '',
+                                    text: ''
+                                }
+                            }
+                        )
+                    },
+                    2000
+                )
                 this.setState({
                     cart: [],
-                    checkout: false
+                    checkout: false,
+                    alert: {
+                        isOpen: true,
+                        color: 'success',
+                        text: response.data
+                    }
                 })
             })
     }
@@ -239,6 +267,11 @@ class App extends Component {
                                 changeCurrency={this.changeCurrency}
                             />
                             {checkout}
+                            <Alert
+                                isOpen={this.state.alert.isOpen}
+                                color={this.state.alert.color}
+                                text={this.state.alert.text}
+                            />
                         </Route>
                         <Route path='/admin'>
                             <Content
@@ -252,7 +285,6 @@ class App extends Component {
                         </Route>
                         <Redirect to='/'/>
                     </Switch>
-
                     <Footer companyName={this.state.project_name}/>
                 </div>
             </Router>
