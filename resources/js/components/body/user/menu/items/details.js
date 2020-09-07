@@ -21,9 +21,13 @@ export default class Details extends Component {
     }
 
     handleChange(e) {
-        this.setState({
-            count: +e.target.value
-        })
+        let value = e.target.value
+
+        if(value && value > 0){
+            this.setState({
+                count: +e.target.value
+            })
+        }
     }
 
     render() {
