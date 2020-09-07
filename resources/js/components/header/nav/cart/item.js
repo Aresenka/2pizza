@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 export default props => {
     if (props.empty) {
@@ -8,17 +8,18 @@ export default props => {
             </div>
         )
     } else {
-        let item=props.item
-
-        const [value, setValue] = useState(item.count)
+        let item = props.item
 
         function handleChange(e) {
             let item = e.target,
                 value = item.value,
                 id = props.item.id
 
-            setValue(value)
-            props.changeCount(id, value)
+            if(!value || value <= 0){
+                e.preventDefault()
+            }else{
+                props.changeCount(id, value)
+            }
         }
 
         function handleClick(){
@@ -45,7 +46,7 @@ export default props => {
                 <div className='cart-count my-auto col-md-3 col-6'>
                     <input
                         type='number'
-                        value={value}
+                        value={item.count}
                         min={1}
                         className='form-control cart-count'
                         onChange={handleChange}
