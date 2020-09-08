@@ -7,7 +7,14 @@ export default class Checkout extends Component {
     constructor(props) {
         super(props)
 
+        let total_price = 0
+
+        this.props.items.filter(i => i).map(item => {
+            total_price += item.price * item.count
+        })
+
         this.state = {
+            total: total_price,
             errors: {
                 name: {
                     value: false,
@@ -27,7 +34,7 @@ export default class Checkout extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleClick(){
+    handleClick() {
         let items = this.props.items.filter(item => item).map(item => {
                 return {
                     id: item.id,
@@ -39,28 +46,39 @@ export default class Checkout extends Component {
             phone = document.getElementById('form-phone').value,
             address = document.getElementById('form-address').value
 
-        if(!name.trim() || !phone.trim() || !address.trim()){
+        if (!name.trim() || !phone.trim() || !address.trim()) {
             errors.name.value = !name.trim()
             errors.phone.value = !phone.trim()
             errors.address.value = !address.trim()
             this.setState({errors: errors})
-        }else{
+        } else {
             this.props.placeOrder({
                 items: items,
                 name: name,
                 phone: phone,
                 address: address,
-                total: this.state.total_price,
+                total: this.state.total,
                 currency: this.props.currency.id
             })
         }
     }
 
-    render(){
-        let total_price = 0,
-            items = this.props.items.filter(i => i).map(item => {
-                total_price += item.price * item.count
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let total_price = 0
 
+        this.props.items.filter(i => i).map(item => {
+            total_price += item.price * item.count
+        })
+
+        if(prevState.total !== total_price){
+            this.setState({
+                total: total_price
+            })
+        }
+    }
+
+    render() {
+        let items = this.props.items.filter(i => i).map(item => {
                 return (
                     <div key={'checkout_' + item.id}>
                         <Item
@@ -79,7 +97,7 @@ export default class Checkout extends Component {
                         Total:
                     </div>
                     <div className='col-6 text-right'>
-                        {total_price+this.props.currency.data.symbol}
+                        {this.state.total + this.props.currency.data.symbol}
                     </div>
                 </div>
             )
@@ -95,7 +113,7 @@ export default class Checkout extends Component {
                 <ModalBody>
                     {items}
                     {total}
-                    <hr />
+                    <hr/>
                     <Form errors={this.state.errors}/>
                 </ModalBody>
                 <ModalFooter>
