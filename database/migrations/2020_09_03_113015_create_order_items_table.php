@@ -17,7 +17,7 @@ class CreateOrderItemsTable extends Migration
             $table->increments('id');
             $table->integer('order_id');
             $table->integer('meal_id');
-            $table->integer('meal_count');
+            $table->integer('meals_count');
         });
     }
 
