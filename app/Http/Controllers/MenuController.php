@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
+    /**
+     * Get meal with category_id === $id
+     * If $id === 0 or no $id passed it return all meals
+     * Meals returned with its category, ordered by category_id and id
+     *
+     * @param int $id
+     * @return string
+     */
     public function index($id = 0)
     {
         $meals = Meal::with([
@@ -23,18 +31,7 @@ class MenuController extends Controller
             ->orderBy('category_id', 'asc')
             ->orderBy('id', 'asc')
             ->get();
-        return $meals->toJson();
-    }
 
-    public function getItem($id)
-    {
-        $meal = Meal::with([
-            'mealPrices' => function ($query) {
-                $query->select('currency_id', 'meal_price', 'meal_id');
-            }
-        ])
-            ->where('id', $id)
-            ->first();
-        return $meal->toJson();
+        return $meals->toJson();
     }
 }
