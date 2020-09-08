@@ -14,30 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::group(['middleware' => 'api-header'], function () {
 //Project settings methods
-Route::get('settings', 'SettingsController@index');
+    Route::get('settings', 'SettingsController@index');
 
 //Menu categories methods
-Route::get('categories', 'CategoryController@index');
-Route::post('categories/add', 'CategoryController@create');
-Route::post('categories/edit/{id}', 'CategoryController@update');
-Route::post('categories/delete/{id}', 'CategoryController@delete');
+    Route::get('categories', 'CategoryController@index');
 
 //Menu itself methods
-Route::get('menu/{id}', 'MenuController@index');
-Route::get('menu/item/{id}','MenuController@getItem');
-Route::post('menu/add', 'MenuController@create');
-Route::post('menu/edit/{id}', 'MenuController@update');
-Route::post('menu/delete/{id}', 'MenuController@delete');
+    Route::get('menu/{id}', 'MenuController@index');
 
 //Orders methods
-Route::post('order/add', 'OrderController@add');
+    Route::post('order/add', 'OrderController@add');
 
+//Auth methods
+    Route::post('user/login', 'UserController@login');
+    Route::post('user/register', 'UserController@register');
+});
+
+Route::group(['middleware' => ['jwt.auth','api-header']], function () {
 //Admin methods
-Route::get('admin/order/get/all', 'OrderController@getOrders');
-Route::post('admin/order/update', 'OrderController@update');
-Route::post('admin/settings/update', 'SettingsController@update');
+    Route::get('admin/order/get/all', 'OrderController@getOrders');
+    Route::post('admin/order/update', 'OrderController@update');
+    Route::post('admin/settings/update', 'SettingsController@update');
+});
