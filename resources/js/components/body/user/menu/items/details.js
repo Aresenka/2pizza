@@ -81,7 +81,8 @@ export default class Details extends Component {
                         <div className='col-4 text-right'>
                             <Button
                                 color="secondary"
-                                onClick={this.props.closeModal}>
+                                onClick={this.props.closeModal}
+                            >
                                 Close
                             </Button>
                         </div>
