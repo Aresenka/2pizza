@@ -4,8 +4,8 @@ export default props => {
     return (
         <li>
             <a
-                className={`pointer ${props.empty ? 'emptyCart' : ''}`}
                 id="cart"
+                className={`pointer ${props.empty ? 'emptyCart' : ''}`}
             >
                 <ion-icon
                     name="basket-outline"
