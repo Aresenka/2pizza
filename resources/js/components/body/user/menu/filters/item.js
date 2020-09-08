@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Item = props => {
+    //Handle click on the category
     function handleClick(e){
         let id = e.target.dataset.id
         props.changeFilter(id)

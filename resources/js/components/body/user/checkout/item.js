@@ -3,9 +3,11 @@ import React from 'react'
 export default props => {
     let item = props.item
 
+    //Handle item's count change
     function handleChange(e) {
         let value = e.target.value
 
+        //Filter [e0\+\-] values
         if(!value || value <= 0){
             e.preventDefault()
         }else{
@@ -13,6 +15,7 @@ export default props => {
         }
     }
 
+    //Handle item removing
     function handleClick() {
         props.removeFromCart(props.item.id)
     }

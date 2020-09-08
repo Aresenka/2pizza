@@ -14,6 +14,7 @@ export default class extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
+    //Toggle currencies list visibility
     toggle(id = null) {
         if (id) {
             this.setState({
@@ -27,17 +28,20 @@ export default class extends Component {
         }
     }
 
+    //Handle click to currency from currencies list
     handleClick(e) {
         let id = e.target.dataset.id
         this.toggle(id)
     }
 
+    //Set new currency equal to current currency
     componentDidMount() {
         this.setState({
             new_id: this.props.currency.id
         })
     }
 
+    //Change currency if clicked to not current currency
     componentDidUpdate(prevProps, prevState) {
         if (prevState.new_id !== this.state.new_id) {
             this.props.changeCurrency(this.state.new_id)
@@ -45,8 +49,10 @@ export default class extends Component {
     }
 
     render() {
+        //Init currencies list if it should be visible
         const listClass = this.state.isOpen ? 'currency-list' : 'currency-list hide',
             list = Object.values(this.props.currencies).map(item => {
+                //Return all currencies except current one
                 if (+item.id !== +this.props.currency.id) {
                     return (
                         <Item
@@ -57,6 +63,7 @@ export default class extends Component {
                     )
                 }
             })
+
         return (
             <div className='currency-changer'>
                 <div

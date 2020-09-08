@@ -6,6 +6,7 @@ import Items from './items/main'
 export default class Menu extends Component {
     constructor(props) {
         super(props)
+
         this.state = {
             currentCategory: 0
         }
@@ -13,7 +14,7 @@ export default class Menu extends Component {
         this.updateCategory = this.updateCategory.bind(this)
     }
 
-    //move to filters?
+    //Update selected category
     updateCategory(id) {
         this.setState({
             currentCategory: +id,

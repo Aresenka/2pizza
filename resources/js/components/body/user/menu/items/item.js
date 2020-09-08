@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Item = props => {
+    //Show details modal
     function handleClickDetails(){
         props.showDetails(props.item.id)
     }
 
+    //Add one item to the cart
     function handleClickBuy(){
         props.addToCart(props.item.id)
     }

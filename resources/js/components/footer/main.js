@@ -11,7 +11,8 @@ export default props => {
                                 {props.companyName}
                             </h3>
                             <p>
-                                This is not real pizzeria site! I would love to make and deliver the best pizza in the city, but I have paws, sorry.
+                                This is not real pizzeria site! I would love to make and deliver the best pizza in the
+                                city, but I have paws, sorry.
                             </p>
                         </div>
 
@@ -51,10 +52,11 @@ export default props => {
                 <div className="copyright">
                     © Copyright <strong>BizPage</strong>. All Rights Reserved
                 </div>
+
                 <div className="credits">
                     Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                 </div>
             </div>
         </footer>
-)
+    )
 }

@@ -6,6 +6,7 @@ export default class Orders extends Component {
     constructor(props) {
         super(props)
 
+        //Grab auth token from localStorage
         let user = JSON.parse(localStorage['appState']).data,
             token = user.auth_token
 
@@ -21,12 +22,15 @@ export default class Orders extends Component {
         this.updateOrder = this.updateOrder.bind(this)
     }
 
+    //Get all orders
     componentDidMount() {
         let orders = []
+
         axios.get(`/api/admin/order/get/all?token=${this.state.token}`)
             .then(response => {
                 let data = response.data
 
+                //Parse orders
                 data.map(item => {
                     let order = {
                         id: item.id,
@@ -57,16 +61,21 @@ export default class Orders extends Component {
             })
     }
 
+    //Update order's state and comment
     updateOrder(data) {
         data['token'] = this.state.token
+
         axios.post('/api/admin/order/update', data)
             .then(response => {
+                //Show alert with server message
                 this.setState({
                     alert: {
                         show: true,
                         text: response.data
                     }
                 })
+
+                //Hide alert after two seconds
                 setTimeout(() => {
                     this.setState({
                         alert: {

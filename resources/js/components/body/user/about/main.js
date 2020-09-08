@@ -2,6 +2,7 @@ import React from 'react'
 import Item from './item'
 
 export default props => {
+    //It should be only three sections displayed
     let items = props.items.map((item, i) => {
         if(i < 3){
             return <Item
@@ -13,6 +14,7 @@ export default props => {
             />
         }
     })
+
     return (
         <section id="about">
             <div className="container aos-init aos-animate">

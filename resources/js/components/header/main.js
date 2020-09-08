@@ -2,10 +2,12 @@ import React, {Component} from 'react'
 import Logo from './logo'
 import Navbar from './nav/main'
 
-export default class Header extends Component{
-    constructor(props){
+export default class Header extends Component {
+    constructor(props) {
         super(props)
 
+        //Get user state from localStorage such record is exist
+        //Else set default unauthed state
         let user = localStorage['appState'] ?
             JSON.parse(localStorage['appState']) :
             {
@@ -13,6 +15,7 @@ export default class Header extends Component{
                 data: {}
             }
 
+        //Save state in localStorage
         localStorage['appState'] = JSON.stringify(user)
 
         this.state = {
@@ -29,22 +32,24 @@ export default class Header extends Component{
         this.closeLogin = this.closeLogin.bind(this)
     }
 
+    //Close login modal window
     closeLogin() {
         this.setState({
             showLogin: false
         })
     }
 
+    //Auth user with email-password pair
     authUser(email, password) {
         let data = {
             email: email,
             password: password
         }
 
-        axios
-            .post("/api/user/login", data)
+        axios.post("/api/user/login", data)
             .then(response => {
                 if (response.data.success) {
+                    //If it is no errors auth the user
                     let userData = {
                             name: response.data.data.name,
                             id: response.data.data.id,
@@ -57,7 +62,7 @@ export default class Header extends Component{
                             data: userData
                         }
 
-                    // save app state with user date in local storage
+                    //Save user data in local storage
                     localStorage["appState"] = JSON.stringify(user)
 
                     this.setState({
@@ -68,7 +73,8 @@ export default class Header extends Component{
                         user: user,
                         showLogin: false
                     })
-                } else{
+                } else {
+                    //Show alert with error message
                     this.setState({
                         showLogin: true,
                         auth_error: {
@@ -83,12 +89,14 @@ export default class Header extends Component{
             })
     }
 
+    //Set user logged out
     disauthUser() {
         let user = {
             authed: false,
             data: {}
         }
 
+        //Save state in localStorage
         localStorage['appState'] = JSON.stringify(user)
 
         this.setState({
@@ -96,7 +104,7 @@ export default class Header extends Component{
         })
     }
 
-    render(){
+    render() {
         return (
             <header
                 id="header"

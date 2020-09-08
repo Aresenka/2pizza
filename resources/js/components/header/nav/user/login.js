@@ -13,14 +13,17 @@ export default class Login extends Component{
         this.handleClick = this.handleClick.bind(this)
     }
 
+    //Auth user after submit button click
     handleClick(){
         let email = document.getElementById('auth_email').value,
             password = document.getElementById('auth_password').value
 
+        //Try to auth user
         this.props.authUser(email, password)
+
+        //If user authed without errors close login modal
         setTimeout(()=>{
             if(!this.props.error.show){
-                console.log('test')
                 this.props.closeModal()
             }
         }, 100)

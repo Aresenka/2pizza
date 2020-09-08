@@ -3,7 +3,9 @@ import {Switch, Route, Redirect} from "react-router-dom"
 import Orders from './orders/main'
 
 export default props => {
+    //Check if user is authed
     let authed = JSON.parse(localStorage['appState']).authed
+
     return (
         <Route
             path={props.path}

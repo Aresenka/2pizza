@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default props => {
+    //If component tagged as empty return div with placeholder
     if (props.empty) {
         return (
             <div className='cart-item-placeholder'>
@@ -8,13 +9,16 @@ export default props => {
             </div>
         )
     } else {
+        //Else init content
         let item = props.item
 
+        //Handle item's count change
         function handleChange(e) {
             let item = e.target,
                 value = item.value,
                 id = props.item.id
 
+            //Filter [e0\+\-] values
             if(!value || value <= 0){
                 e.preventDefault()
             }else{
@@ -22,6 +26,7 @@ export default props => {
             }
         }
 
+        //Handle remove item click
         function handleClick(){
             props.removeItem(props.item.id)
         }

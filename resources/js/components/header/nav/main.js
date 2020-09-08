@@ -20,12 +20,14 @@ export default class Nav extends Component {
         this.toggleProfile = this.toggleProfile.bind(this)
     }
 
+    //Pass loginIsOpen prop to state
     componentDidMount() {
         this.setState({
             showModal: this.props.loginIsOpen
         })
     }
 
+    //If loginIsOpen prop changed fix it in state
     componentDidUpdate(prevProps, prevState) {
         if(prevState.showModal !== this.props.loginIsOpen){
             this.setState({
@@ -34,6 +36,7 @@ export default class Nav extends Component {
         }
     }
 
+    //Show login modal if user is not authed
     handleClick() {
         let authed = JSON.parse(localStorage['appState']).authed
 
@@ -44,13 +47,18 @@ export default class Nav extends Component {
         }
     }
 
+    //Make user logged out and close profile popover
     handleLogout(){
+        //Disauth user
         this.props.disauthUser()
+
+        //Close profile popover
         this.setState({
             showProfile: false
         })
     }
 
+    //Toggle profile if user is authorised
     toggleProfile(){
         let authed = JSON.parse(localStorage['appState']).authed
 

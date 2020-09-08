@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {NavLink, useRouteMatch} from "react-router-dom"
 
-export default props => {
+export default () => {
     let items = [
             {
                 path: 'orders',
@@ -21,6 +21,7 @@ export default props => {
                 </li>
             )
         })
+
     return (
         <ul>
             {links}

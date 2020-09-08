@@ -13,17 +13,19 @@ export default class Details extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
+    //Add item to the cart or increase it's count
     handleClick(e) {
-        let id= e.target.dataset.id,
+        let id = e.target.dataset.id,
             count = this.state.count
         this.props.addToCart(id, +count)
         this.props.closeModal()
     }
 
+    //Handle item's count change
     handleChange(e) {
         let value = e.target.value
 
-        if(value && value > 0){
+        if (value && value > 0) {
             this.setState({
                 count: +e.target.value
             })
@@ -53,7 +55,7 @@ export default class Details extends Component {
                             </div>
                             <div className='col-12'>
                                 <strong>Price: </strong>
-                                {this.props.item.price+this.props.currency}
+                                {this.props.item.price + this.props.currency}
                             </div>
                         </div>
                     </div>

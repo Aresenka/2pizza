@@ -6,6 +6,7 @@ import Changer from '../currency/main'
 export default class Filters extends Component {
     constructor(props) {
         super(props)
+
         this.state = {
             categories: [],
             changerIsOpen: false
@@ -15,6 +16,7 @@ export default class Filters extends Component {
         this.toggleChanger = this.toggleChanger.bind(this)
     }
 
+    //Get all categories from server
     componentDidMount() {
         axios.get('/api/categories')
             .then(response => {
@@ -27,18 +29,16 @@ export default class Filters extends Component {
             })
     }
 
+    //Change category
     changeFilter(id) {
         this.props.updateCurrent(id)
     }
 
+    //Toggle currencies list
     toggleChanger() {
         this.setState({
             changerIsOpen: !this.state.changerIsOpen
         })
-    }
-
-    handleClick() {
-
     }
 
     render() {

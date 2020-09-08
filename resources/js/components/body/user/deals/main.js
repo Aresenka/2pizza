@@ -4,6 +4,7 @@ import Item from './item'
 export default props => {
     let deals = props.items.map((item, i) => {
         let icon = <ion-icon name={item.icon}/>
+
         return (
             <Item
                 key={'deal_'+i}
@@ -13,6 +14,7 @@ export default props => {
             />
         )
     })
+
     return (
         <section id="deals">
             <div className="container">
