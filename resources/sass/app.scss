@@ -951,6 +951,18 @@ input.error {
     margin-top: -28%;
 }
 
+.profile-body{
+    a{
+        color: #666;
+        text-decoration: underline;
+
+        &:hover{
+            color: $green;
+            text-decoration: none;
+        }
+    }
+}
+
 /*--------------------------------------------------------------
 # Admin
 --------------------------------------------------------------*/
@@ -1043,4 +1055,16 @@ input.error {
 
 .popover {
     max-width: 100%;
+}
+
+.alert{
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    min-width: 200px;
+    width: fit-content;
+    text-align: center;
+    z-index: 6969;
 }
