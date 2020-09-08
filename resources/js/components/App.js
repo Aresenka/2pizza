@@ -8,7 +8,8 @@ import {
 import ReactDOM from 'react-dom'
 import Header from './header/main'
 import Intro from './body/user/intro/main'
-import Content from './body/main'
+import UserContent from './body/user/main'
+import AdminRoute from './body/admin/main'
 import Checkout from './body/user/checkout/main'
 import Footer from './footer/main'
 import Alert from './body/alert'
@@ -58,9 +59,11 @@ class App extends Component {
                 axios.get('/api/menu/0')
                     .then(response => {
                         let menu = {}
+
                         response.data.map(item => {
                             menu[item.id] = item
                         })
+
                         this.setState({
                             project_name: settings['project name'],
                             currencies: settings.currencies,
@@ -204,8 +207,6 @@ class App extends Component {
         })
     }
 
-    //Admin methods
-
     render() {
         let checkout = this.state.checkout ?
             <Checkout
@@ -258,8 +259,7 @@ class App extends Component {
                                     }
                                 ]}
                             />
-                            <Content
-                                isAdmin={false}
+                            <UserContent
                                 menu={this.state.menu}
                                 currencies={this.state.currencies}
                                 currency={this.state.current_currency}
@@ -273,16 +273,7 @@ class App extends Component {
                                 text={this.state.alert.text}
                             />
                         </Route>
-                        <Route path='/admin'>
-                            <Content
-                                isAdmin={true}
-                                menu={this.state.menu}
-                                currencies={this.state.currencies}
-                                currency={this.state.current_currency}
-                                addToCart={this.addToCart}
-                                changeCurrency={this.changeCurrency}
-                            />
-                        </Route>
+                        <AdminRoute path='/admin'/>
                         <Redirect to='/'/>
                     </Switch>
                     <Footer companyName={this.state.project_name}/>
