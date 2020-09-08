@@ -89,7 +89,7 @@ export default class List extends Component {
             <ul>
                 {items}
                 <Cart empty={this.props.empty}/>
-                <User />
+                <User handleClick={this.props.handleClick}/>
             </ul>
         )
     }
